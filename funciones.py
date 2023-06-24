@@ -336,14 +336,15 @@ def otro_producto ():
 def ticket ():
     os.system ("cls")    
     carrito  
+    print (Style.BRIGHT+Fore.GREEN+"*" * 40,  "TICKET ", "*" * 40+Fore.RESET+Style.RESET_ALL)
     print ("\n Producto \t\t\t Cantidad \t Precio Unitario \t Total")
 
     for producto in carrito:
         print (f"{producto[0]}\t\t {producto [1]}\t\t{producto[2]}\t\t\t{producto[3]}")
 
         total_ticket = sum ([producto [3]for producto in carrito])
-
-    print (f"\n Total a Pagar: {total_ticket}")  
+    print ("<>"*40)
+    print (Style.BRIGHT + f"\n Total a Pagar: {total_ticket}"+Style.RESET_ALL)  
 
 def eliminar (): 
     os.system ("cls")
@@ -351,22 +352,36 @@ def eliminar ():
     print("Lista de productos:")
     for i, producto in enumerate(carrito):
         print(f"{i + 1}. {producto[0]} - Cantidad: {producto[1]} - Precio unitario: {producto[2]} - Precio total: {producto[3]}")
-        print("")
+        print ("")
 
-    print ("ingrese la marca del producto que desea eliminar: \n EJEMPLO: 'Lenovo' ")
-    codigo_eliminar = input("")
+    print ("ingrese la marca del producto que desea modifcar: \n EJEMPLO: 'Lenovo' ")
+    nombre_producto = input("")
     print("")
+
     producto_encontrado = None
     for producto in carrito:
-        if producto[0].split(" / ")[0] == codigo_eliminar:
+        if producto[0].split(" / ")[0] == nombre_producto:
            producto_encontrado = producto
-        break
-
-    if producto_encontrado:
+           break
+    
+    if producto_encontrado is None:
+        print(Fore.RED+Style.BRIGHT+Back.WHITE+"[!] Producto no encontrado. Por favor, ingrese un nombre de producto válido."+Fore.RESET+Style.RESET_ALL+Back.RESET)
+    else: 
+        compra = int(input("ingrese cantidad comprada: "))
+        print("")
+        if nombre_producto == "Lenovo":
+            laptop[Style.BRIGHT+"stock"+Style.RESET_ALL] = laptop[Style.BRIGHT+"stock"+Style.RESET_ALL] + compra
+        elif nombre_producto == "Apple":
+            telefono[Style.BRIGHT+"stock"+Style.RESET_ALL] = telefono[Style.BRIGHT+"stock"+Style.RESET_ALL] + compra
+        elif nombre_producto == "Samsung":
+            smartwatch[Style.BRIGHT+"stock"+Style.RESET_ALL] = smartwatch[Style.BRIGHT+"stock"+Style.RESET_ALL] + compra
+        elif nombre_producto == "Microsoft":
+           tablets[Style.BRIGHT+"stock"+Style.RESET_ALL] = tablets[Style.BRIGHT+"stock"+Style.RESET_ALL] + compra
+        elif nombre_producto == "Sony":
+            auriculares[Style.BRIGHT+"stock"+Style.RESET_ALL] = auriculares[Style.BRIGHT+"stock"+Style.RESET_ALL] + compra
         carrito.remove(producto_encontrado)
         print(Fore.GREEN+Style.BRIGHT+"El producto ha sido eliminado correctamente."+Fore.RESET+Style.RESET_ALL)
-    else:
-        print(Fore.RED+Style.BRIGHT+Back.WHITE+"[!] No se encontró ningún producto con el código ingresado."+Fore.RESET+Style.RESET_ALL+Back.RESET)
+
     print("")
     print("Lista de productos actualizada:")
     for producto in carrito:
@@ -380,7 +395,7 @@ def modificar2 ():
         print(f"{i + 1}. {producto[0]} - Cantidad: {producto[1]} - Precio unitario: {producto[2]} - Precio total: {producto[3]}")
         print ("")
 
-    print ("ingrese la marca del producto que desea eliminar: \n EJEMPLO: 'Lenovo' ")
+    print ("ingrese la marca del producto que desea modifcar: \n EJEMPLO: 'Lenovo' ")
     nombre_producto = input("")
     print("")
 
@@ -392,24 +407,49 @@ def modificar2 ():
     if producto_encontrado is None:
        print(Fore.RED+Style.BRIGHT+Back.WHITE+"[!] Producto no encontrado. Por favor, ingrese un nombre de producto válido."+Fore.RESET+Style.RESET_ALL+Back.RESET)
     else:
-        nuevo_valor = int(input("Ingrese el nuevo valor: "))
+        cantidad_comprada = int(input("Ingrese la cantidad ya comprada: "))
+        print ("")
+        print ("Si desea descontar cantidad del producto anteponga un (-) de lo contrario anteponga un (+)")
+        cantidad_modificar = int(input("Ingrese la cantidad a modificar: "))
+        if nombre_producto == "Lenovo":
+            if cantidad_comprada + cantidad_modificar >= 0:
+                laptop[Style.BRIGHT+"stock"+Style.RESET_ALL] -= cantidad_modificar
+                cantidad_comprada += cantidad_modificar
+            else:
+                print("La cantidad a modificar no es válida.")
+        elif nombre_producto == "Apple":
+            if cantidad_comprada + cantidad_modificar >= 0:
+                telefono[Style.BRIGHT+"stock"+Style.RESET_ALL] -= cantidad_modificar
+                cantidad_comprada += cantidad_modificar
+            else:
+                print("La cantidad a modificar no es válida.")
+        elif nombre_producto == "Samsung":
+            if cantidad_comprada + cantidad_modificar >= 0:
+                smartwatch[Style.BRIGHT+"stock"+Style.RESET_ALL] -= cantidad_modificar
+                cantidad_comprada += cantidad_modificar
+            else:
+                print("La cantidad a modificar no es válida.")
+        elif nombre_producto == "Microsoft":
+            if cantidad_comprada + cantidad_modificar >= 0:
+                tablets[Style.BRIGHT+"stock"+Style.RESET_ALL] -= cantidad_modificar
+                cantidad_comprada += cantidad_modificar
+            else:
+                print("La cantidad a modificar no es válida.")
+        elif nombre_producto == "Sony":
+            if cantidad_comprada + cantidad_modificar >= 0:
+                auriculares[Style.BRIGHT+"stock"+Style.RESET_ALL] -= cantidad_modificar
+                cantidad_comprada += cantidad_modificar
+            else:
+                print("La cantidad a modificar no es válida.")
+
+# Imprimir el stock actualizado
+            print("Stock disponible:", laptop[Style.BRIGHT+"stock"+Style.RESET_ALL])
     
-        producto_encontrado[1] = nuevo_valor
-        producto_encontrado[3] = nuevo_valor * producto_encontrado[2] 
+        producto_encontrado[1] = cantidad_comprada
+        producto_encontrado[3] = cantidad_comprada * producto_encontrado[2] 
 
         print (Fore.GREEN+Style.BRIGHT+"modificado correctamente " + Fore.RESET+Style.RESET_ALL)
         print ("")
         print("\nLista de productos actualizada:")
         for i, producto in enumerate(carrito):
             print(f"{i + 1}. {producto[0]} - Cantidad: {producto[1]} - Precio unitario: {producto[2]} - Precio total: {producto[3]}")
-
-    
-
-
-
-
-        
-
-
-
-#21072238819 , 8783768349 , 30403430432 , 92343500323 , 17721039659 , 95282950384 , 38905462490 , 87850885864 , 24811002471 , 35398084204 .
